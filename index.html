@@ -1,0 +1,130 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Signup form</h1>
+<form onsubmit="signup() ;return false">
+<label for="fullname">Fullname</label>
+<input type="text"  id="fullname">
+<br>
+<label for="username">Username</label>
+<input type="text"  id="username">
+<br>
+<label for="password">password</label>
+<input type="password"  id="password">
+<br>
+<input type="submit" value="signup">
+
+</form>
+<p id="message"></p>
+<br>
+<br>
+<button onclick="getAllUsers()">get all users</button>
+<p id="allUserList"></p>
+
+
+
+<script>
+function signup(){
+var fullname = document.getElementById('fullname').value
+var username = document.getElementById('username').value
+var password = document.getElementById('password').value
+
+axios.post('https://social-mediaapp22.herokuapp.com/user', {
+    "fullname" : fullname,
+    "username":username,
+    "password":password,
+
+  })
+  .then(function (response) {
+    
+    document.querySelector("#message").innerHTML= response.data
+  })
+  .catch(function (error) {
+    console.log(error.message);
+  });
+
+
+
+
+}
+
+
+function getAllUsers(){
+    axios.get ("https://social-mediaapp22.herokuapp.com/user")
+    .then(function (response) {
+    
+        
+    console.log(response.data);
+    response.data.map(eachUser=>{
+        document.querySelector("#allUserList").innerHTML +=`${eachUser.fullname } ${eachUser.username } ${eachUser.password }<br>`
+    })
+    
+  })
+}
+
+//1. UNIFORM RESOURSE:
+//==================================
+
+// GET       /user/:userID    to get single user
+// GET       /users           to get all users
+// POST      /user            to create single user
+// POST      /users           to create multiple user
+// PUT       /user:userID     to modify single user
+// PUT       /users           to modify multiple user
+// DELETE    /user:userID     to delete single user
+// DELETE    /users           to delete multipls user
+
+
+
+// GET       /post/:postID    to get single post
+// GET       /posts           to get all posts
+// POST      /post            to create single post
+// POST      /posts           to create multiple posts
+// PUT       /post/:postID    to modify single post
+// PUT       /posts           to modify multiple posts
+// DELETE    /post/:postID    to delete single post
+// DELETE    /posts           to delete multipls posts
+
+
+// GET       /group/:groupID    to get single group
+// GET       /groups            to get all groups
+// POST      /group             to create single group
+// POST      /groups            to create multiple groups
+// PUT       /group/:groupID    to modify single group
+// PUT       /groups            to modify multiple groups
+// DELETE    /group/:postID     to delete single group
+// DELETE    /groups            to delete multipls groups
+
+
+
+
+
+// don't use these
+// GET /get-user
+// POST /create-user
+
+// 2.CLIENT AND SERVER SHOULD BE SEPARATE
+// =================================
+
+// 3.STATE LESS
+// ==============================
+
+// 4.CACHEABLE
+// ===============================
+
+// 5.LAYERED SYSTEM
+
+
+
+
+</script>
+
+
+</body>
+</html>
